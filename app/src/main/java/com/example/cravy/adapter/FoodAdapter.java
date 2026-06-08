@@ -15,9 +15,15 @@ import java.util.List;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
     private List<Food> foodList;
+    private OnItemClickListener listener;
 
-    public FoodAdapter(List<Food> foodList) {
+    public interface OnItemClickListener {
+        void onItemClick(Food food);
+    }
+
+    public FoodAdapter(List<Food> foodList, OnItemClickListener listener) {
         this.foodList = foodList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,10 +38,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         Food food = foodList.get(position);
         holder.tvName.setText(food.getName());
         holder.tvPrice.setText(food.getPrice());
-        
+
         Glide.with(holder.itemView.getContext())
                 .load(food.getImageUrl())
                 .into(holder.ivImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(food);
+            }
+        });
     }
 
     @Override

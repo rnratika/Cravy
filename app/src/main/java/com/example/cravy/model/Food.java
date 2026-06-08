@@ -1,6 +1,7 @@
 package com.example.cravy.model;
+import java.io.Serializable;
 
-public class Food {
+public class Food implements Serializable{
     private String id;
     private String name;
     private String description;
